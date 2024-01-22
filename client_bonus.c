@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msarda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 18:34:49 by msarda            #+#    #+#             */
-/*   Updated: 2024/01/13 21:00:32 by msarda           ###   ########.fr       */
+/*   Created: 2024/01/12 18:35:09 by msarda            #+#    #+#             */
+/*   Updated: 2024/01/12 18:39:48 by msarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,14 @@ static void	ft_handler(int pid, char c)
 			if (kill(pid, SIGUSR2) < 0)
 				exit(1);
 		}
-		usleep(870);
+		usleep(800);
 	}
+}
+
+static void	ft_msg_handler(int i)
+{
+	(void)i;
+	ft_printf("Message Sent.\n");
 }
 
 int	main(int c, char **ar)
@@ -47,6 +53,11 @@ int	main(int c, char **ar)
 		{
 			ft_printf("\nYour Pid Is Incorrect\n");
 			exit (1);
+		}
+		if (signal(SIGUSR1, ft_msg_handler) < 0)
+		{
+			ft_printf("Failed To handle SIGUSR1");
+			exit(1);
 		}
 		while (*ar[2])
 			ft_handler(pid, *ar[2]++);
